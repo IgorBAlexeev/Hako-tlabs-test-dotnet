@@ -7,7 +7,7 @@
         @keyup.enter="addTask"
         placeholder="Add a new todo"
       />
-      <button class="createButton" @click="addTask">Add</button>
+      <button class="createButton" @click="addTask(newTask)">Add</button>
     </div>
     <div class="toDoListContainer">
       <div v-for="task in todos" :key="task.id">
@@ -26,8 +26,8 @@
   </div>
 </template>
 
-<script>
-import { ref, computed, defineComponent } from "vue";
+<script lang="ts">
+import { computed, defineComponent } from "vue";
 import { useToDoStore } from "../stores/toDoStore.js";
 
 export default defineComponent({
@@ -40,10 +40,9 @@ export default defineComponent({
 
     const newTask = "";
 
-    const addTask = () => {
+    const addTask = (newTask) => {
       if (newTask.trim()) {
         todoStore.addTask({ title: newTask, isCompleted: false });
-        newTask = "";
       }
     };
 
