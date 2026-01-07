@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TestApp.ToDoList.Entity;
 using TestApp.ToDoList.Store;
 
@@ -18,24 +20,32 @@ namespace TestApp.ToDoList.Repository
     public ToDoItemsRepository(ToDoListDbContext context)
     {
       this.context = context;
-
       if (!context.ToDoItems.Any())
       {
-        context.ToDoItems.AddRange(
-        new[] {
-          new ToDoItem { Title = "Laundry"},
-          new ToDoItem { Title = "Grocery Shopping", IsCompleted = true},
-          new ToDoItem { Title = "Pay Bills"},
-          new ToDoItem { Title = "Clean the House", IsCompleted = true},
-        }
-      );
+        var items = FakeData.FillWithFakeData(10);
+        context.ToDoItems.AddRange(items);
         context.SaveChanges();
       }
+    }
+    /// <inheritdoc/>
+    public IQueryable<ToDoItem> GetAllItemsAsQueryable()
+    {
+      return context.ToDoItems;
     }
     /// <inheritdoc/>
     public ICollection<ToDoItem> GetAllItems()
     {
       return context.ToDoItems.ToList();
+    }
+    /// <inheritdoc/>
+    public async Task<ICollection<ToDoItem>> GetAllItemsAsync()
+    {
+      return await context.ToDoItems.ToListAsync();
+    }
+
+    public async Task<ICollection<ToDoItem>> GetPageItemsAsync(int skip, int pageSize)
+    {
+      return await context.ToDoItems.Skip(skip).Take(pageSize).ToListAsync();
     }
     /// <inheritdoc/>
     public ToDoItem GetItemById(int id)
@@ -66,6 +76,5 @@ namespace TestApp.ToDoList.Repository
         context.SaveChanges();
       }
     }
-
   }
 }

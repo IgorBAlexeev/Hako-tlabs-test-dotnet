@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TestApp.ToDoList.Entity;
 
 namespace TestApp.ToDoList.Repository
@@ -13,6 +15,21 @@ namespace TestApp.ToDoList.Repository
     /// </summary>
     /// <returns></returns>
     ICollection<ToDoItem> GetAllItems();
+    /// <summary>
+    /// Gets all to-do items from DB as queryable.
+    /// </summary>
+    /// <returns></returns>
+    IQueryable<ToDoItem> GetAllItemsAsQueryable();
+    /// <summary>
+    /// Gets all to-do items from DB async.
+    /// </summary>
+    /// <returns></returns>
+    Task<ICollection<ToDoItem>> GetAllItemsAsync();
+    /// <summary>
+    /// Gets all page items from DB async.
+    /// </summary>
+    /// <returns></returns>
+    Task<ICollection<ToDoItem>> GetPageItemsAsync(int skip, int pageSize);
     /// <summary>
     /// Gets single to-do item by Id.
     /// </summary>
