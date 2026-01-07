@@ -97,8 +97,7 @@ namespace TestApp.Server
         });
       });
       services.AddMemoryCache();
-      // Todo: uncomment
-      // services.AddExceptionHandler<GlobalExceptionHandler>();
+      services.AddExceptionHandler<GlobalExceptionHandler>();
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider svcProv)
     {
