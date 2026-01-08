@@ -12,7 +12,7 @@ namespace TestApp.Server.Controllers
 {
   [ApiController]
   [Route("api/tasks")]
-  // [Authorize]
+  [Authorize]
   public class ToDoTasksController : ControllerBase
   {
     private readonly IToDoListTracker toDoListTracker;
